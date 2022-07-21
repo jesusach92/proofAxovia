@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { FilterBar } from "./FilterBar";
-import axios from "axios";
+import Widget from "./Widget";
+import axios from "axios"
+import stringifyObject from 'stringify-object';
 
 const Section = () => {
   const [data, setData] = useState({});
   const [dataFilter, setDataFilter] = useState({});
 
-  const getData = () => {
-    fetch("../assets/AxoviaData.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setDataFilter(data);
-        console.log("data:", data);
-      });
-  };
+  const getData = async() => {
+ const dataob= await axios.get("/assets/AxoviaData.json",{
+    headers:{
+        'Content-type':'application/json'
+    }
+ }).then(result  => result.data.replace(/(\r\n|\n|\r|\t)/gm,'').split('},'))
+dataob.map((e, index)=>{
+    console.log(e.replace('"{',""))
+  })
+ console.log(dataob);
+
+
+}
+
+
 
   useEffect(() => {
     getData();
@@ -30,8 +38,11 @@ const Section = () => {
       }}
     >
       <FilterBar></FilterBar>
+      <Widget>{console.log(data)}</Widget>
     </div>
   );
 };
 
 export default Section;
+
+
