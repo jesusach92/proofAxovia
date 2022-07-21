@@ -4,7 +4,7 @@ export const FilterBar = () => {
   return (
     <div
       className="container p-3"
-      style={{ backgroundColor: "#f9ecf7", width: "100%" }}
+      style={{ backgroundColor: "#f9ecf7", width: "100%", borderRadius:"10px"}}
     >
       <div className="row">
         <div className="col">
