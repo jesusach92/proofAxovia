@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import Widget from "./Widget";
 import axios from "axios";
-import { CurrencyDollar } from "react-bootstrap-icons";
 
 const Section = () => {
   const [data, setData] = useState([
@@ -170,7 +168,7 @@ const Section = () => {
     },
   ]);
   const [searchData, setsearchData] = useState("");
-
+  const [sort, setSort] = useState({flag:false, sort:"1"})
   const getData = async () => {
     const dataob = await axios
       .get("/assets/AxoviaData.json", {
@@ -182,6 +180,11 @@ const Section = () => {
         result.data.replace(/(\r\n|\n|\r|\t)/gm, "").split("},")
       );
   };
+
+  useEffect(()=>{
+    sortinf(sort.sort)
+
+  },[sort.flag])
 
   useEffect(() => {
     getData();
@@ -267,27 +270,27 @@ const Section = () => {
   };
 
   const sortinf = (e) => {
-    const sortRes = dataFilter.sort((a, b) => {
-      if (e.target.value === "1") {
-        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+    const sortvalue = e
+    let sortRes;
+      if (sortvalue === "1") {
+       sortRes = dataFilter.sort((a, b) => {return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1})
       }
-      if (e.target.value === "2") {
-        return Number(a.price) > Number(b.price) ? -1 : 1;
-      }
-
-      if (e.target.value === "3") {
-        return Number(a.comboPrice) > Number(b.comboPrice) ? 1 : -1;
+      if (sortvalue=== "2") {
+        sortRes = dataFilter.sort((a, b) => {return Number(a.price) > Number(b.price) ? 1 : -1})
       }
 
-      if (e.target.value === "4") {
-        return a.toppingType > b.toppingType ? 1 : -1;
+      if (sortvalue === "3") {
+        sortRes = dataFilter.sort((a, b) => {return Number(a.comboPrice) > Number(b.comboPrice) ? 1 : -1})
       }
 
-      if (e.target.value === "5") {
-        return a.size > b.size ? 1 : -1;
+      if (sortvalue === "4") {
+        sortRes = dataFilter.sort((a, b) => {return a.toppingType > b.toppingType ? 1 : -1})
       }
-    });
-    setData(sortRes);
+
+      if (sortvalue === "5") {
+        sortRes = dataFilter.sort((a, b) => {return a.size > b.size ? 1 : -1})
+      }
+    setData(data=> data=sortRes);
   };
   return (
     <div
@@ -373,10 +376,10 @@ const Section = () => {
           <div className="col">
             <select
               className="form-select"
-              onChange={sortinf}
+              onChange={e=>setSort(sort=> sort= {flag:!sort.flag, sort: e.target.value})}
               onBlur={resetSearch}
             >
-              <option value="0" selected>
+              <option value="1" selected>
                 Ordenar Por
               </option>
               <option value="1">Nombre</option>
