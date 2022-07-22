@@ -169,6 +169,7 @@ const Section = () => {
       size: "L",
     },
   ]);
+  const [searchData, setsearchData] = useState("");
 
   const getData = async () => {
     const dataob = await axios
@@ -180,17 +181,117 @@ const Section = () => {
       .then((result) =>
         result.data.replace(/(\r\n|\n|\r|\t)/gm, "").split("},")
       );
-    dataob.map((e, index) => console.log(e.replace('"{', "")));
-    console.log(dataob);
   };
 
   useEffect(() => {
     getData();
   }, []);
 
+  const filterData = (searchData) => {
+    const resultSearching = dataFilter.filter((e) => {
+      if (e.name.toString().toLowerCase().includes(searchData)) {
+        return e;
+      }
+      return null;
+    });
+    setData(resultSearching);
+  };
+  const handleChange = (e) => {
+    setsearchData(e.target.value);
+    filterData(e.target.value);
+  };
+
+  const resetSearch = (e) => {
+    setsearchData("");
+    setData(dataFilter);
+  };
+
+  const filterbyPrice = (e) => {
+    let resultdata = dataFilter;
+    if (e.target.value === "0") {
+      setData(dataFilter);
+    }
+    if (e.target.value === "1")
+      resultdata = dataFilter.filter((element) => Number(element.price) < 500);
+    if (e.target.value === "2")
+      resultdata = dataFilter.filter((element) => Number(element.price) > 500);
+    setData(resultdata);
+  };
+
+  const filterbyCombo = (e) => {
+    let resultdata = dataFilter;
+    if (e.target.value === "0") {
+      setData(dataFilter);
+    }
+    if (e.target.value === "1")
+      resultdata = dataFilter.filter(
+        (element) => Number(element.comboPrice) < 400
+      );
+    if (e.target.value === "2")
+      resultdata = dataFilter.filter(
+        (element) =>
+          Number(element.comboPrice) > 400 && Number(element.comboPrice) < 600
+      );
+    if (e.target.value === "3")
+      resultdata = dataFilter.filter(
+        (element) => Number(element.comboPrice) > 600
+      );
+    setData(resultdata);
+  };
+
+  const filterbyTopping = (e) => {
+    let resultdata = dataFilter;
+    if (e.target.value === "0") {
+      setData(dataFilter);
+    }
+    if (e.target.value === "1")
+      resultdata = dataFilter.filter((element) => element.toppingType === "0");
+    if (e.target.value === "2")
+      resultdata = dataFilter.filter((element) => element.toppingType === "1");
+    if (e.target.value === "3")
+      resultdata = dataFilter.filter((element) => element.toppingType === "2");
+    setData(resultdata);
+  };
+  const filterbySize = (e) => {
+    let resultdata = dataFilter;
+    if (e.target.value === "T") {
+      setData(dataFilter);
+    }
+    if (e.target.value === "S")
+      resultdata = dataFilter.filter((element) => element.size === "S");
+    if (e.target.value === "M")
+      resultdata = dataFilter.filter((element) => element.size === "M");
+    if (e.target.value === "L")
+      resultdata = dataFilter.filter((element) => element.size === "L");
+    setData(resultdata);
+  };
+
+  const sortinf = (e) => {
+    const sortRes = dataFilter.sort((a, b) => {
+      if (e.target.value === "1") {
+        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+      }
+      if (e.target.value === "2") {
+        return Number(a.price) > Number(b.price) ? -1 : 1;
+      }
+
+      if (e.target.value === "3") {
+        return Number(a.comboPrice) > Number(b.comboPrice) ? 1 : -1;
+      }
+
+      if (e.target.value === "4") {
+        return a.toppingType > b.toppingType ? 1 : -1;
+      }
+
+      if (e.target.value === "5") {
+        return a.size > b.size ? 1 : -1;
+      }
+    });
+    setData(sortRes);
+  };
   return (
     <div
-      className="container mt-5 p-0"
+      className="container mt-5 p-0 pb-2"
       style={{
         backgroundColor: "#fcf7fc",
         borderRadius: "10px 10px 0 0",
@@ -210,48 +311,79 @@ const Section = () => {
             <input
               className="form-control"
               placeholder=" Buscar"
+              value={searchData}
+              onChange={handleChange}
+              onBlur={resetSearch}
               style={{ fontFamily: "Arial, FontAwesome" }}
             ></input>
           </div>
           <div className="col">
-            <select className="form-select">
-              <option selected>Precio</option>
-              <option> {"Entre 400"}</option>
-              <option> {"Más de 400"}</option>
-            </select>
-          </div>
-          <div className="col">
-            <select className="form-select">
-              <option selected>
-                <CurrencyDollar></CurrencyDollar>Precio
+            <select
+              className="form-select"
+              onBlur={resetSearch}
+              onChange={filterbyPrice}
+            >
+              <option value="0" selected>
+                Precio
               </option>
-              <option value="1">{"Menos de 500"}</option>
-              <option value="2">{"Entre 400 y 500"}</option>
-              <option value="3">{"Más de 500"}</option>
+              <option value="1"> {"Menos de $ 500.00"}</option>
+              <option value="2"> {"Más de $ 500.00"}</option>
             </select>
           </div>
           <div className="col">
-            <select className="form-select">
-              <option value="0">Fondeau</option>
-              <option value="1">Betun Italiano</option>
-              <option value="2">Chantilly</option>
+            <select
+              className="form-select"
+              onBlur={resetSearch}
+              onChange={filterbyCombo}
+            >
+              <option value="0" selected>
+                Precio
+              </option>
+              <option value="1">{"Menos de $ 500.00"}</option>
+              <option value="2">{"Entre $ 400.00 y $ 600.00"}</option>
+              <option value="3">{"Más de $ 500.00"}</option>
             </select>
           </div>
           <div className="col">
-            <select className="form-select">
+            <select
+              className="form-select"
+              onBlur={resetSearch}
+              onChange={filterbyTopping}
+            >
+              <option value="0" selected>
+                TOPPING
+              </option>
+              <option value="1">Fondeau</option>
+              <option value="3">Betun Italiano</option>
+              <option value="3">Chantilly</option>
+            </select>
+          </div>
+          <div className="col">
+            <select
+              className="form-select"
+              onBlur={resetSearch}
+              onChange={filterbySize}
+            >
+              <option value="T">Tamaño</option>
               <option value="S">Pequeño</option>
               <option value="M">Mediano</option>
               <option value="L">Grande</option>
             </select>
           </div>
           <div className="col">
-            <select className="form-select">
-              <option selected>Ordenar Por</option>
-              <option value="0">Nombre</option>
-              <option value="1">Precio</option>
-              <option value="2">Precio Combo</option>
-              <option value="3">Topping</option>
-              <option value="4">Tamaño</option>
+            <select
+              className="form-select"
+              onChange={sortinf}
+              onBlur={resetSearch}
+            >
+              <option value="0" selected>
+                Ordenar Por
+              </option>
+              <option value="1">Nombre</option>
+              <option value="2">Precio</option>
+              <option value="3">Precio Combo</option>
+              <option value="4">Topping</option>
+              <option value="5">Tamaño</option>
             </select>
           </div>
         </div>
