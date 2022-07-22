@@ -52,3 +52,18 @@ border-color: #299798;;
 .btn-outline-success:hover{
   background-color: #299798;
 }
+.bold
+{
+ font-weight: 700;
+ color: rgba(1, 1, 1, 0.75);
+}
+.tip
+{
+ font-weight: 100;
+ color: rgba(1, 1, 1, 0.5);
+
+}
+.price
+{
+  font-size: 2.5em;
+}
