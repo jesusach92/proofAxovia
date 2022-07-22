@@ -11,3 +11,44 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.menuNavbar, .menuNavbar li a{
+  color: #fff;
+  font-size: 1.2em;
+}
+
+.menuNavbar li a:hover,.menuNavbar li a:focus
+{
+  color: #fddfd5;
+}
+
+.name
+{
+  font-weight: 700;
+  font-size: 1.3em;
+  color: rgba(1, 1, 1, 0.7);
+}
+.cake
+{
+ color: #fff;
+ background-color: #eb5e70;
+ text-align: center;
+}
+.paq
+{
+color: #fff;
+background-color: #f7aa76;
+border-top-right-radius: 20px;
+text-align: center;
+}
+.My-Button{
+  background-color: #299798;
+  border-radius: 25px;
+  border: 0px;
+}
+.btn .btn-success:hover{
+border-color: #299798;;
+}
+.btn-outline-success:hover{
+  background-color: #299798;
+}

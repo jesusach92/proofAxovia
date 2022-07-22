@@ -1,14 +1,22 @@
 import React from "react";
-
+import { CurrencyDollar } from "react-bootstrap-icons";
 export const FilterBar = () => {
   return (
     <div
       className="container p-3"
-      style={{ backgroundColor: "#f9ecf7", width: "100%", borderRadius:"10px 10px 0 0"}}
+      style={{
+        backgroundColor: "#f9ecf7",
+        width: "100%",
+        borderRadius: "10px 10px 0 0",
+      }}
     >
       <div className="row">
-        <div className="col">
-          <input className="form-control"></input>
+        <div className="col .placeholder">
+          <input
+            className="form-control"
+            placeholder=" Buscar"
+            style={{ fontFamily: "Arial, FontAwesome" }}
+          ></input>
         </div>
         <div className="col">
           <select className="form-select">
@@ -19,6 +27,9 @@ export const FilterBar = () => {
         </div>
         <div className="col">
           <select className="form-select">
+            <option selected>
+              <CurrencyDollar></CurrencyDollar>Precio
+            </option>
             <option value="1">{"Menos de 500"}</option>
             <option value="2">{"Entre 400 y 500"}</option>
             <option value="3">{"Más de 500"}</option>
@@ -38,16 +49,16 @@ export const FilterBar = () => {
             <option value="L">Grande</option>
           </select>
         </div>
-      </div>
-      <div className="col">
-        <select className="form-select">
-          <option selected>Ordenar Por</option>
-          <option value="0">Nombre</option>
-          <option value="1">Precio</option>
-          <option value="2">Precio Combo</option>
-          <option value="3">Topping</option>
-          <option value="4">Tamaño</option>
-        </select>
+        <div className="col">
+          <select className="form-select">
+            <option selected>Ordenar Por</option>
+            <option value="0">Nombre</option>
+            <option value="1">Precio</option>
+            <option value="2">Precio Combo</option>
+            <option value="3">Topping</option>
+            <option value="4">Tamaño</option>
+          </select>
+        </div>
       </div>
     </div>
   );
