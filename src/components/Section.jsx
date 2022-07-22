@@ -168,7 +168,7 @@ const Section = () => {
     },
   ]);
   const [searchData, setsearchData] = useState("");
-  const [sort, setSort] = useState({flag:false, sort:"1"})
+  const [sort, setSort] = useState({ flag: false, sort: "1" });
   const getData = async () => {
     const dataob = await axios
       .get("/assets/AxoviaData.json", {
@@ -181,10 +181,9 @@ const Section = () => {
       );
   };
 
-  useEffect(()=>{
-    sortinf(sort.sort)
-
-  },[sort.flag])
+  useEffect(() => {
+    sortinf(sort.sort);
+  }, [sort.flag]);
 
   useEffect(() => {
     getData();
@@ -253,6 +252,7 @@ const Section = () => {
       resultdata = dataFilter.filter((element) => element.toppingType === "1");
     if (e.target.value === "3")
       resultdata = dataFilter.filter((element) => element.toppingType === "2");
+
     setData(resultdata);
   };
   const filterbySize = (e) => {
@@ -270,27 +270,37 @@ const Section = () => {
   };
 
   const sortinf = (e) => {
-    const sortvalue = e
+    const sortvalue = e;
     let sortRes;
-      if (sortvalue === "1") {
-       sortRes = dataFilter.sort((a, b) => {return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1})
-      }
-      if (sortvalue=== "2") {
-        sortRes = dataFilter.sort((a, b) => {return Number(a.price) > Number(b.price) ? 1 : -1})
-      }
+    if (sortvalue === "1") {
+      sortRes = dataFilter.sort((a, b) => {
+        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
+      });
+    }
+    if (sortvalue === "2") {
+      sortRes = dataFilter.sort((a, b) => {
+        return Number(a.price) > Number(b.price) ? 1 : -1;
+      });
+    }
 
-      if (sortvalue === "3") {
-        sortRes = dataFilter.sort((a, b) => {return Number(a.comboPrice) > Number(b.comboPrice) ? 1 : -1})
-      }
+    if (sortvalue === "3") {
+      sortRes = dataFilter.sort((a, b) => {
+        return Number(a.comboPrice) > Number(b.comboPrice) ? 1 : -1;
+      });
+    }
 
-      if (sortvalue === "4") {
-        sortRes = dataFilter.sort((a, b) => {return a.toppingType > b.toppingType ? 1 : -1})
-      }
+    if (sortvalue === "4") {
+      sortRes = dataFilter.sort((a, b) => {
+        return a.toppingType > b.toppingType ? 1 : -1;
+      });
+    }
 
-      if (sortvalue === "5") {
-        sortRes = dataFilter.sort((a, b) => {return a.size > b.size ? 1 : -1})
-      }
-    setData(data=> data=sortRes);
+    if (sortvalue === "5") {
+      sortRes = dataFilter.sort((a, b) => {
+        return a.size > b.size ? 1 : -1;
+      });
+    }
+    setData((data) => (data = sortRes));
   };
   return (
     <div
@@ -357,7 +367,7 @@ const Section = () => {
                 TOPPING
               </option>
               <option value="1">Fondeau</option>
-              <option value="3">Betun Italiano</option>
+              <option value="2">Betun Italiano</option>
               <option value="3">Chantilly</option>
             </select>
           </div>
@@ -376,7 +386,11 @@ const Section = () => {
           <div className="col">
             <select
               className="form-select"
-              onChange={e=>setSort(sort=> sort= {flag:!sort.flag, sort: e.target.value})}
+              onChange={(e) =>
+                setSort(
+                  (sort) => (sort = { flag: !sort.flag, sort: e.target.value })
+                )
+              }
               onBlur={resetSearch}
             >
               <option value="1" selected>
